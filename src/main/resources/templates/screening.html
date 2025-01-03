@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电影订票</title>
+</head>
+<style>
+    .dian:hover{
+        background: darkgray;
+    }
+    .piao{
+        border: none;
+    }
+</style>
+<script src="/static/js/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    function ding(obj){
+        var cid = $(obj).next().val();
+        $.ajax({
+            type:"get",
+            url:"/user/dingPById",
+            data:{"cid":cid},
+            dataType:"text",
+            success:function (result){
+                if(result=="true"){
+                    location.href="/user/Zuo"
+                }
+            },
+            error:function (){
+                alert("出错了！")
+            }
+        })
+    }
+</script>
+<body>
+    <center>
+        <h1>电影订票</h1>
+        <table border="0">
+            <tr>
+                <td><h4>电影名称：<span th:text="${session.screenings.smoveName}"></span></h4></td>
+            </tr>
+            <tr>
+                <td><h4>上映时间：<span th:text="${#dates.format(session.screenings.premiereDate,'yyyy-MM-dd')}"></span></h4></td>
+            </tr>
+            <tr>
+                <td><h4>电影价格：<span th:text="${session.screenings.price}"></span></h4></td>
+            </tr>
+            <tr>
+                <td height="5px"></td>
+            </tr>
+            <div th:each="sc:${session.screenings.screeningList}">
+                <tr class="dian">
+                    <td>厅号：<span th:text="${sc.room}"></span></td>
+                    <td>播放时间：<span th:text="${#dates.format(sc.duration,'yyyy-MM-dd HH:mm:ss')}"></span><input type="button" value="订票" class="piao" onclick="ding(this)"><input type="hidden" th:value="${sc.cid}"></td>
+                </tr>
+                <tr>
+                    <td height="18px"></td>
+                </tr>
+            </div>
+        </table>
+    </center>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="com.b0.mybatis.mapper.UserMapper" -->
+<mapper namespace="cn.bdqn.dao.loginMapper">
+    <select id="deng" parameterType="String" resultType="String">
+        select phone from user where phone=#{phone}
+    </select>
+    <insert id="zhu">
+        insert into user(username,password,phone)values(#{username},#{password},#{phone})
+    </insert>
+    <select id="getPhone" resultType="user" parameterType="String">
+        select * from user where phone=#{phone}
+    </select>
+</mapper>

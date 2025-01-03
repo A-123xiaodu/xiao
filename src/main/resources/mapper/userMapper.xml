@@ -1,0 +1,27 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace="com.b0.mybatis.mapper.UserMapper" -->
+<mapper namespace="cn.bdqn.dao.userMapper">
+     <select id="SmoveList" resultType="Smove">
+        select * from smove
+    </select>
+    <resultMap id="SmoveList" type="Smove">
+        <id property="id" column="id"/>
+        <result property="SmoveName" column="SmoveName"/>
+        <result property="price" column="price"/>
+        <result property="premiereDate" column="premiereDate"/>
+        <result property="screening" column="screening"/>
+        <collection property="screeningList" ofType="screening">
+            <result property="duration" column="duration"/>
+            <result property="room" column="room"/>
+            <result property="cid" column="cid"/>
+        </collection>
+    </resultMap>
+    <select id="changId" parameterType="Integer" resultMap="SmoveList">
+        select s.*,s2.duration,s2.room,s2.cid from smove s,screening s2 where s.screening=s2.sid and s.id=#{id}
+    </select>
+    <select id="dingPById" resultType="cseat" parameterType="Integer">
+        select * from cseat where cid=#{cid}
+    </select>
+</mapper>

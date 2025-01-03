@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .chang{
+        border: none;
+    }
+</style>
+<script src="/static/js/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    function chang(obj){
+        var sid = $(obj).next().val();
+        $.ajax({
+            type:"get",
+            url:"/user/screeningById",
+            data:{id:sid},
+            dataType:"text",
+            success:function (result){
+                if(result=="true"){
+                    location.href="/user/screening"
+                }else{
+                    alert("抱歉，当前电影为安排场次，请稍后查看！")
+                }
+            },
+            error:function (){
+                alert("出错了！")
+            }
+        })
+    }
+</script>
+<body>
+    <center>
+        <h1>上映电影查询</h1>
+        <table border="1">
+            <tr>
+                <th>电影名称</th>
+                <th>电影价格</th>
+                <th>上映时间</th>
+                <th>场次</th>
+            </tr>
+            <tr th:each="smList:${smoveList}">
+                <td th:text="${smList.smoveName}"></td>
+                <td th:text="${smList.price}"></td>
+                <td th:text="${#dates.format(smList.premiereDate,'yyyy-MM-dd')}"></td>
+                <td><input type="button" value="场次" class="chang" onclick="chang(this)"><input type="hidden" th:value="${smList.screening}"></td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员登录</title>
+</head>
+<script src="/static/js/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    function yan(){
+        var phone = $("#phone").val();
+        $.ajax({
+            type:"get",
+            url:"/login/yan",
+            data:{"phone":phone},
+            dataType:"text",
+            success:function (result){
+                if(result=="false"){
+                    alert("电话号码有误！")
+                }else{
+                    alert("验证码为："+result)
+                }
+            },
+            error:function (){
+                alert("出错了！")
+            }
+        })
+    }
+    function deng(){
+        var phone = $("#phone").val();
+        var yan = $("#yan").val();
+        $.ajax({
+            type:"get",
+            url: "/login/deng",
+            data: {"phone":phone,"yan":yan},
+            dataType: "text",
+            success:function (result){
+                if(result=="ge"){
+                    alert("电话号码或验证码输入有误！")
+                }else if(result=="false"){
+                    alert("验证码有误！")
+                }else{
+                    alert("登录成功！")
+                    location.href="/user/zhuan"
+                }
+            },
+            error:function (){
+                alert("出错了！")
+            }
+        })
+    }
+</script>
+<style>
+    #phone{
+        width: 300px;
+    }
+    #yan{
+        width: 213px;
+    }
+    a{
+        text-decoration: none;
+        font-size: 20px;
+    }
+    input{
+        padding: 10px;
+    }
+    #deng{
+        width: 150px;
+    }
+</style>
+<body>
+    <center>
+        <h1>管理员登录</h1>
+        请输入电话号码：<input type="text" name="phone" id="phone"><br>
+        请输入验证码：<input type="text" name="yan" id="yan"><input type="button" value="获取验证码" onclick="yan()"><br><br>
+        <input type="button" value="登录" onclick="deng()" id="deng"><a href="/user/zhu">注册</a>
+    </center>
+</body>
+</html>

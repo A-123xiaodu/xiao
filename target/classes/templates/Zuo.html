@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电影座位选择</title>
+</head>
+<style>
+    input[type="checkbox"]{
+        height: 30px;
+        width: 30px;
+    }
+</style>
+<script src="/static/js/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    function xuan(obj){
+        var zuo = $(obj).val();
+        var zhi="";
+        if(!($(obj).checked)){
+            var qu = $(obj).next().val();
+            if(qu==1){
+                zhi="普通区"
+            }else if(qu==2){
+                zhi="优选区"
+            }else if(qu==3){
+                zhi="最佳观影区"
+            }
+            alert("座位:"+zuo+","+"所选区域:"+zhi)
+        }
+    }
+</script>
+<body>
+    <center>
+        <h1>电影座位</h1>
+            <span th:each="st:${session.cseat}">
+                <span th:if="${st.status==0}">
+                    <input type="checkbox" onclick="xuan(this)" th:value="${st.seatNumber}" class="kuang"><input type="hidden" th:value="${st.region}">
+                </span>
+                <span th:if="${st.status==1}">
+                    <input type="checkbox" class="kuang" checked readonly>
+                </span>
+                <span th:if="${st.zwid%5==0}">
+                    <br>
+                </span>
+            </span>
+    </center>
+</body>
+</html>
